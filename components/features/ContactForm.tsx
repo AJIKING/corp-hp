@@ -22,9 +22,8 @@ export const contactFormSchema = z.object({
 
 export type ContactFormSchema = z.infer<typeof contactFormSchema>
 
-interface ContactFormProps {}
 
-export const ContactForm = (props: ContactFormProps) => {
+export const ContactForm = () => {
   const [submittedMessage, setSubmittedMessage] = useState<string | null>(null)
   const { control, handleSubmit, reset } = useForm<ContactFormSchema>({
     mode: 'onSubmit',
@@ -51,7 +50,7 @@ export const ContactForm = (props: ContactFormProps) => {
       })
       setSubmittedMessage('送信が完了しました。内容を確認の上、折り返しご連絡いたします。')
       reset()
-    } catch (e) {
+    } catch {
       setSubmittedMessage('送信に失敗しました。お手数ですが、再度お試しください。')
     }
   }

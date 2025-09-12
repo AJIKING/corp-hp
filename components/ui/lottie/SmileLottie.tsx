@@ -5,7 +5,7 @@ import Lottie from 'lottie-react'
 import type { CSSProperties } from 'react'
 
 type Props = {
-  animationData: any
+  animationData: object
   loop?: boolean
   autoplay?: boolean
   width?: number | string

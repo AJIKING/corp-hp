@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 
-type Option = { value: string | number | boolean; label: string }
+type Option = { value: string; label: string }
 
 type RHFBasicSelectFieldProps<T extends FieldValues> = Omit<SelectProps, 'name'> &
   UseControllerProps<T> & {
@@ -51,7 +51,7 @@ export const RHFBasicSelectField = <T extends FieldValues>({
       <Select
         {...rest}
         required={required}
-        value={field.value as any}
+        value={field.value}
         name={field.name}
         inputRef={field.ref}
         onBlur={field.onBlur}
@@ -61,10 +61,10 @@ export const RHFBasicSelectField = <T extends FieldValues>({
         <MenuItem value="" disabled sx={{ whiteSpace: 'normal', fontSize: 16 }}>
           選択してください
         </MenuItem>
-        {values.map((v) => (
+        {values.map((v: Option) => (
           <MenuItem
             key={String(v.value)}
-            value={v.value as any}
+            value={v.value}
             sx={{ whiteSpace: 'normal', fontSize: 16 }}
           >
             {v.label}
