@@ -1,95 +1,55 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { About } from '@/components/features/About'
+import { BusinessContent } from '@/components/features/BusinessContent'
+import { ContactForm } from '@/components/features/ContactForm'
+import { Corporate } from '@/components/features/Corporate'
+import { Overview } from '@/components/features/Overview'
+import { RepresentativeMessage } from '@/components/features/RepresentativeMessage'
+import { Footer } from '@/components/ui/Footer'
+import { Header } from '@/components/ui/Header'
+import { Box, Divider, Grow, Stack } from '@mui/material'
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    <Box>
+      <Header />
+      <Corporate />
+      <Stack
+        direction="column"
+        spacing={{ xs: 24, md: 32 }}
+        sx={{
+          mt: 8,
+          mb: 16,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: {
+            xs: 'auto', // 小さい画面では幅を自動調整
+            md: 800, // 中くらい以上の画面では最大幅を800pxに制限
+          },
+          mx: {
+            xs: 2, // 小さい画面ではマージンを小さく
+            sm: 4,
+            md: 'auto', // 中くらい以上の画面では中央に配置
+          },
+        }}
+      >
+        <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.3)', width: '100%' }} />
+        <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+          <BusinessContent />
+        </Grow>
+        <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+          <About />
+        </Grow>
+        <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+          <RepresentativeMessage />
+        </Grow>
+        <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+          <Overview />
+        </Grow>
+        <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.3)', width: '100%' }} />
+        <ContactForm />
+      </Stack>
+      <Footer />
+    </Box>
+  )
 }
