@@ -11,11 +11,11 @@
   "preview_urls": true,
   "routes": [
     {
-      "pattern": "example.com",
+      "pattern": "plaria.co.jp",
       "custom_domain": true
     },
     {
-      "pattern": "www.example.com",
+      "pattern": "www.plaria.co.jp",
       "custom_domain": true
     }
   ],
