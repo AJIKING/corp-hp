@@ -5,7 +5,7 @@ import { z } from 'zod'
 // Nodeランタイム（HMAC計算にnode:cryptoを使うため）
 export const runtime = 'nodejs'
 
-export const contactFormSchema = z.object({
+const contactFormSchema = z.object({
   category: z.string().min(1, 'カテゴリを選択してください'),
   corporateName: z.string().min(1, '会社名を入力してください'),
   name: z.string().min(3, '3文字以上で入力してください'),
