@@ -16,6 +16,7 @@
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "@mui/material-nextjs": "^7.3.2",
+    "@opennextjs/cloudflare": "^1.8.2",
     "lottie-react": "^2.4.1",
     "next": "15.5.3",
     "react": "19.1.0",
@@ -30,6 +31,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.36.0"
   }
 }
