@@ -1,26 +1,21 @@
 import { Footer } from '@/components/ui/Footer'
 import { Header } from '@/components/ui/Header'
-import { Box, Divider, Stack, Typography } from '@mui/material'
+import { Box, Container, Divider, Stack, Typography } from '@mui/material'
 import Link from 'next/link'
 
 export default function PrivacyPolicy() {
   return (
     <Box>
       <Header />
-      <Stack
-        direction="column"
-        sx={{
-          mt: `calc(80px + 32px)`,
-          mb: 16,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 1,
-          maxWidth: { xs: 'auto', md: 800 },
-          mx: { xs: 2, md: 'auto' },
-        }}
-      >
-        <Typography variant="h4" component="h1" gutterBottom color="white" id="privacy-policy">
+      <Container maxWidth="md" sx={{ mt: `calc(80px + 32px)`, mb: 16 }}>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          color="white"
+          id="privacy-policy"
+          textAlign="center"
+        >
           プライバシーポリシー
         </Typography>
 
@@ -54,9 +49,7 @@ export default function PrivacyPolicy() {
           <Typography component="ul" sx={{ pl: 3, m: 0, color: 'white' }}>
             <li>当社サービスの提供、運営、保守、改善</li>
             <li>本人確認、各種お問い合わせへの対応、サポート提供</li>
-            <li>
-              お知らせ・キャンペーン・アンケート等のご案内（マーケティングを含む）※配信停止はいつでも可能です
-            </li>
+            <li>お知らせ・キャンペーン・アンケート等のご案内（マーケティングを含む）</li>
             <li>利用規約違反等への対応、不正利用の防止、セキュリティ対策</li>
             <li>法令・ガイドライン等に基づく対応</li>
           </Typography>
@@ -119,7 +112,7 @@ export default function PrivacyPolicy() {
           <Typography variant="h6" component="h2" gutterBottom color="white" id="section-7">
             7. 本ポリシーの変更
           </Typography>
-          <Typography variant="body1" color="white" paragraph>
+          <Typography variant="body1" color="white">
             当社は、必要に応じて本ポリシーを変更することがあります。重要な変更を行う場合は、当社ウェブサイトでの掲示その他適切な方法によりお知らせします。
             変更後の本ポリシーは、当社ウェブサイトに掲載された時点から適用されます。
           </Typography>
@@ -134,7 +127,7 @@ export default function PrivacyPolicy() {
             </Typography>
           </Stack>
         </Stack>
-      </Stack>
+      </Container>
       <Footer />
     </Box>
   )
