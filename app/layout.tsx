@@ -16,6 +16,7 @@ const dancingScript = Dancing_Script({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://plaria.co.jp'),
   title: '株式会社PLARIA',
   description:
     '「感動体験から笑顔を広げる」をミッションに掲げる、株式会社PLARIAのホームページです。',
