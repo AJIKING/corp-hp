@@ -171,15 +171,12 @@ export const ContactForm = () => {
           />
 
           <Button
+            variant="contained"
             sx={{
               width: '100%',
               height: 40,
               mt: 2,
               mb: 3,
-              backgroundColor: 'primary.main',
-              '&:hover': {
-                backgroundColor: 'primary.main',
-              },
               color: 'white',
             }}
             type="submit"
