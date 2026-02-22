@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildGoogleChatPayload, OPTIONS, POST } from '@/app/api/contact/route'
+import { buildGoogleChatPayload } from '@/lib/google-chat'
+import { OPTIONS, POST } from '@/app/api/contact/route'
 
 const validData = {
   category: 'お問い合わせ',

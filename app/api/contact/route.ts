@@ -2,9 +2,7 @@ import { contactFormSchema, type ContactFormSchema } from '@/lib/schemas/contact
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-export function buildGoogleChatPayload(msg: string) {
-  return { text: msg }
-}
+import { buildGoogleChatPayload } from '@/lib/google-chat'
 
 // ====== POST /api/contact ======
 export async function POST(req: Request) {
