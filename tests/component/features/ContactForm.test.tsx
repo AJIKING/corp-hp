@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { render, screen } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { theme } from '@/config/theme'
@@ -9,35 +9,50 @@ function renderWithTheme(ui: React.ReactElement) {
   return render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
 }
 
-/** 全フィールドに有効値を入力するヘルパー */
-async function fillForm(user: ReturnType<typeof userEvent.setup>) {
-  // カテゴリ選択
-  await user.click(screen.getByRole('combobox'))
-  await user.click(await screen.findByRole('option', { name: 'その他' }))
+/** react-hook-form が検知できるよう nativeInputValueSetter で値を設定 */
+function setNativeInputValue(element: HTMLElement, value: string) {
+  const input = element as HTMLInputElement | HTMLTextAreaElement
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype,
+    'value',
+  )?.set
+  nativeInputValueSetter?.call(input, value)
+  input.dispatchEvent(new Event('input', { bubbles: true }))
+  input.dispatchEvent(new Event('change', { bubbles: true }))
+}
 
-  // テキストフィールド入力（placeholder で特定）
-  await user.type(screen.getByPlaceholderText('例）株式会社PLARIA'), '株式会社テスト')
-  await user.type(screen.getByPlaceholderText('例）開発部'), '開発部')
-  await user.type(screen.getByPlaceholderText('例）山田 太郎'), 'テスト太郎')
-  await user.type(screen.getByPlaceholderText('例）03-1234-5678'), '09012345678')
-  await user.type(screen.getByPlaceholderText('例）info@example.com'), 'test@example.com')
-  await user.type(
+/** MUI Select の値を hidden input 経由で設定（combobox popup を開かない） */
+function setSelectValue(container: HTMLElement, name: string, value: string) {
+  const hiddenInput = container.querySelector(`input[name="${name}"]`) as HTMLInputElement
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+  setter?.call(hiddenInput, value)
+  hiddenInput.dispatchEvent(new Event('input', { bubbles: true }))
+  hiddenInput.dispatchEvent(new Event('change', { bubbles: true }))
+}
+
+/** 全フィールドに有効値を入力するヘルパー */
+function fillForm(container: HTMLElement) {
+  setSelectValue(container, 'category', 'その他')
+  setNativeInputValue(screen.getByPlaceholderText('例）株式会社PLARIA'), '株式会社テスト')
+  setNativeInputValue(screen.getByPlaceholderText('例）開発部'), '開発部')
+  setNativeInputValue(screen.getByPlaceholderText('例）山田 太郎'), 'テスト太郎')
+  setNativeInputValue(screen.getByPlaceholderText('例）03-1234-5678'), '09012345678')
+  setNativeInputValue(screen.getByPlaceholderText('例）info@example.com'), 'test@example.com')
+  setNativeInputValue(
     screen.getByPlaceholderText('お気軽にお問い合わせ内容をご記入ください。'),
     'これはテスト用の問い合わせ内容です。',
   )
 }
 
-describe('ContactForm', () => {
-  // ====== 描画テスト ======
+afterEach(() => {
+  cleanup()
+})
 
+describe('ContactForm', () => {
   describe('描画', () => {
-    it('セクションタイトルが表示される', () => {
+    it('セクションタイトル・フィールドラベル・送信ボタンが表示される', () => {
       renderWithTheme(<ContactForm />)
       expect(screen.getByText('お問い合わせ')).toBeInTheDocument()
-    })
-
-    it('全フィールドのラベルが表示される', () => {
-      renderWithTheme(<ContactForm />)
       expect(screen.getByText('カテゴリ')).toBeInTheDocument()
       expect(screen.getByText('会社名')).toBeInTheDocument()
       expect(screen.getByText('部署/役職名')).toBeInTheDocument()
@@ -45,15 +60,9 @@ describe('ContactForm', () => {
       expect(screen.getByText('電話番号')).toBeInTheDocument()
       expect(screen.getByText('メールアドレス')).toBeInTheDocument()
       expect(screen.getByText('お問い合わせ内容')).toBeInTheDocument()
-    })
-
-    it('送信ボタンが表示される', () => {
-      renderWithTheme(<ContactForm />)
       expect(screen.getByRole('button', { name: '送信する →' })).toBeInTheDocument()
     })
   })
-
-  // ====== バリデーションエラー表示テスト ======
 
   describe('バリデーション', () => {
     it('空の状態で送信するとエラーが表示される', async () => {
@@ -67,8 +76,6 @@ describe('ContactForm', () => {
     })
   })
 
-  // ====== 送信テスト ======
-
   describe('送信', () => {
     beforeEach(() => {
       vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }))
@@ -80,9 +87,9 @@ describe('ContactForm', () => {
 
     it('正常送信で成功メッセージが表示される', async () => {
       const user = userEvent.setup()
-      renderWithTheme(<ContactForm />)
+      const { container } = renderWithTheme(<ContactForm />)
 
-      await fillForm(user)
+      fillForm(container)
       await user.click(screen.getByRole('button', { name: '送信する →' }))
 
       expect(
@@ -92,9 +99,9 @@ describe('ContactForm', () => {
 
     it('fetch が正しいデータで呼ばれる', async () => {
       const user = userEvent.setup()
-      renderWithTheme(<ContactForm />)
+      const { container } = renderWithTheme(<ContactForm />)
 
-      await fillForm(user)
+      fillForm(container)
       await user.click(screen.getByRole('button', { name: '送信する →' }))
 
       await screen.findByText('送信が完了しました。内容を確認の上、折り返しご連絡いたします。')
@@ -117,9 +124,9 @@ describe('ContactForm', () => {
     it('fetch が失敗するとエラーメッセージが表示される', async () => {
       vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')))
       const user = userEvent.setup()
-      renderWithTheme(<ContactForm />)
+      const { container } = renderWithTheme(<ContactForm />)
 
-      await fillForm(user)
+      fillForm(container)
       await user.click(screen.getByRole('button', { name: '送信する →' }))
 
       expect(
