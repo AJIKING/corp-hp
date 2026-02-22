@@ -13,6 +13,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 git push -> deploy
 
 ## Test
-
-bun testは失敗するけど、npm run test だと成功する
-一旦保留にして終了 by 260222
+```bash
+bun run test
+```
