@@ -45,3 +45,9 @@ cloudflare-env.d.ts
 
 # opennext
 .open-next
+
+# Playwright
+e2e/.auth/
+playwright-report/
+test-results/
+blob-report/

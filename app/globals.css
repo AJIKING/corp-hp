@@ -1,8 +1,43 @@
+:root {
+  --bg: #373643;
+  --bg-deep: #2e2d3b;
+  --bg-card: #3f3e4e;
+  --accent: #38b6ff;
+  --accent-light: #6dc8ff;
+  --accent-dark: #1a9ce0;
+  --accent-glow: rgba(56, 182, 255, 0.12);
+  --accent-glow-strong: rgba(56, 182, 255, 0.35);
+  --text-primary: #ffffff;
+  --text-secondary: #b8b8cc;
+  --text-muted: #8a8a9e;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --error: #FF5963;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  white-space: pre-wrap;
-  background-color: #373643;
+  background-color: var(--bg);
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -25px); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.6); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
 }

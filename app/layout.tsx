@@ -1,17 +1,23 @@
 import { ThemeRegistry } from '@/hooks/ThemeProvider'
 import type { Metadata } from 'next'
-import { Dancing_Script, Zen_Maru_Gothic } from 'next/font/google'
+import { Dancing_Script, Outfit, Zen_Maru_Gothic } from 'next/font/google'
 import './globals.css'
 
 const zenMaruGothic = Zen_Maru_Gothic({
-  weight: '400',
-  variable: '--font-zen-old-mincho',
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-zen-maru-gothic',
   subsets: ['latin'],
 })
 
 const dancingScript = Dancing_Script({
   weight: '400',
   variable: '--font-dancing-script',
+  subsets: ['latin'],
+})
+
+const outfit = Outfit({
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-outfit',
   subsets: ['latin'],
 })
 
@@ -95,7 +101,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${zenMaruGothic.variable} ${dancingScript.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: '株式会社PLARIA',
+              alternateName: ['PLARIA'],
+              url: 'https://plaria.co.jp',
+            }),
+          }}
+        />
+      </head>
+      <body className={`${zenMaruGothic.variable} ${dancingScript.variable} ${outfit.variable}`}>
         <ThemeRegistry>{children}</ThemeRegistry>
       </body>
     </html>

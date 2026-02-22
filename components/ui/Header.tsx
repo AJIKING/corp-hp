@@ -1,4 +1,3 @@
-// components/Header.tsx
 'use client'
 
 import CloseIcon from '@mui/icons-material/Close'
@@ -6,13 +5,13 @@ import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
   Box,
+  Button,
   Divider,
   Drawer,
   IconButton,
   List,
   ListItemButton,
   ListItemText,
-  Toolbar,
   Typography,
 } from '@mui/material'
 import Link from 'next/link'
@@ -20,9 +19,11 @@ import { useState } from 'react'
 import { LogoImage } from './LogoImage'
 
 const NAV_ITEMS = [
-  { label: '事業内容', href: '/#business' },
+  { label: '事業内容', href: '/#services' },
+  { label: 'サービス', href: '/#product' },
   { label: '私たちについて', href: '/#about' },
-  { label: 'お問い合わせ', href: '/#contact' },
+  { label: 'お知らせ', href: '/#news' },
+  { label: '会社概要', href: '/#company' },
 ]
 
 export const Header = () => {
@@ -32,41 +33,79 @@ export const Header = () => {
   return (
     <AppBar
       position="fixed"
-      color="default"
       elevation={0}
-      sx={{ backgroundColor: 'background.default' }}
+      sx={{
+        backgroundColor: 'rgba(55, 54, 67, 0.78)',
+        backdropFilter: 'blur(28px) saturate(1.5)',
+        WebkitBackdropFilter: 'blur(28px) saturate(1.5)',
+        borderBottom: '1px solid',
+        borderColor: 'border.default',
+        height: 72,
+        justifyContent: 'center',
+        px: { xs: 3, md: 'clamp(24px, 5vw, 80px)' },
+      }}
     >
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
-        {/* Left: Logo */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Link href="/" aria-label="トップへ">
-            <LogoImage />
-          </Link>
-        </Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Link href="/" aria-label="トップへ">
+          <LogoImage height={30} />
+        </Link>
 
-        {/* Right: Desktop nav */}
+        {/* Desktop nav */}
         <Box
+          component="ul"
           sx={{
             display: { xs: 'none', md: 'flex' },
             alignItems: 'center',
-            gap: 4,
-            color: 'white', // 背景が暗い想定。明るい場合は 'text.primary' に変更
+            gap: '36px',
+            listStyle: 'none',
+            m: 0,
+            p: 0,
           }}
         >
           {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              <Typography variant="h6" component="div" fontSize={18} sx={{ flexGrow: 1 }}>
-                {item.label}
-              </Typography>
-            </Link>
+            <li key={item.href}>
+              <Link href={item.href} style={{ textDecoration: 'none' }}>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    fontWeight: 400,
+                    color: 'textCustom.secondary',
+                    transition: 'color 0.25s',
+                    '&:hover': { color: 'textCustom.primary' },
+                  }}
+                >
+                  {item.label}
+                </Typography>
+              </Link>
+            </li>
           ))}
+          <li>
+            <Button
+              component={Link}
+              href="/#contact"
+              sx={{
+                backgroundColor: 'accent.main',
+                color: '#fff',
+                px: '22px',
+                py: '8px',
+                borderRadius: 100,
+                fontWeight: 500,
+                fontSize: '0.875rem',
+                textTransform: 'none',
+                transition: 'transform 0.2s, box-shadow 0.3s',
+                '&:hover': {
+                  transform: 'translateY(-1px)',
+                  boxShadow: '0 4px 20px var(--accent-glow-strong)',
+                  backgroundColor: 'accent.main',
+                },
+              }}
+            >
+              お問い合わせ
+            </Button>
+          </li>
         </Box>
 
-        {/* Right: Mobile hamburger */}
+        {/* Mobile hamburger */}
         <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
           <IconButton
             aria-label="メニューを開く"
@@ -78,7 +117,7 @@ export const Header = () => {
             <MenuIcon />
           </IconButton>
         </Box>
-      </Toolbar>
+      </Box>
 
       {/* Mobile Drawer */}
       <Drawer
@@ -107,17 +146,13 @@ export const Header = () => {
             <LogoImage />
           </Link>
           <IconButton aria-label="メニューを閉じる" onClick={toggle(false)}>
-            <CloseIcon
-              sx={{
-                color: 'white',
-              }}
-            />
+            <CloseIcon sx={{ color: 'white' }} />
           </IconButton>
         </Box>
-        <Divider />
+        <Divider sx={{ borderColor: 'border.default' }} />
 
         <List sx={{ py: 0 }}>
-          {NAV_ITEMS.map((item) => (
+          {[...NAV_ITEMS, { label: 'お問い合わせ', href: '/#contact' }].map((item) => (
             <ListItemButton
               key={item.href}
               component={Link}
@@ -125,7 +160,10 @@ export const Header = () => {
               onClick={toggle(false)}
               sx={{ py: 2 }}
             >
-              <ListItemText primary={item.label} sx={{ variant: 'h6', fontSize: 18 }} />
+              <ListItemText
+                primary={item.label}
+                primaryTypographyProps={{ fontSize: '0.95rem' }}
+              />
             </ListItemButton>
           ))}
         </List>
